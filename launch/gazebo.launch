@@ -1,0 +1,25 @@
+<launch>
+  <node pkg="px4_control"
+    type="px4_control_node"
+    name="px4_control_node"
+    output="screen">
+
+    <!-- Position Control parameters -->
+    <param name="mass" value="1.535"/>
+    <param name="gz" value="9.81"/>
+    <param name="thrustRatio" value="1.8"/>
+    <param name="kpx" value="10"/>
+    <param name="kpy" value="10"/>
+    <param name="kpz" value="10"/>
+    <param name="kvx" value="5"/>
+    <param name="kvy" value="5"/>
+    <param name="kvz" value="7.5"/>
+    <param name="kix" value="0"/>
+    <param name="kiy" value="0"/>
+    <param name="kiz" value="0"/>
+    <param name="maxInteg_x" value="0"/>
+    <param name="maxInteg_y" value="0"/>
+    <param name="maxInteg_z" value="0"/>
+  </node>
+</launch>
+
