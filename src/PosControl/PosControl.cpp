@@ -1,5 +1,103 @@
 #include "PosControl.h"
 
+//Sets initial errors to zero
+void initializePID(PID_3DOF &PID){
+	Eigen::Vector3d zeros = Eigen::Vector3d::Zero();
+
+	PID.e_prop = zeros;
+	PID.e_deriv = zeros;
+	PID.e_integ = zeros;
+}
+
+//Sets integral error to zero
+void resetIntegralErrorPID(PID_3DOF &PID){
+	PID.e_integ = Eigen::Vector3d::Zero();
+}
+
+//Update Kp, Ki and Kd in the PID
+void updateControlParamPID(PID_3DOF &PID, 
+	                       Eigen::Vector3d K_p, 
+	                       Eigen::Vector3d K_i, 
+	                       Eigen::Vector3d K_d, 
+	                       Eigen::Vector3d maxInteg){
+	PID.K_p = K_p;
+	PID.K_d = K_d;
+	PID.K_i = K_i;
+	PID.maxInteg = maxInteg;
+}
+
+//Update all errors
+void updateErrorPID(PID_3DOF &PID, 
+	                Eigen::Vector3d feedForward, 
+	                Eigen::Vector3d e_prop, 
+	                Eigen::Vector3d e_deriv, 
+	                float dt){
+	PID.feedForward = feedForward;
+	PID.e_prop = e_prop;
+	PID.e_deriv = e_deriv;
+	PID.e_integ = PID.e_integ+(e_prop*dt); //e_integ = e_integ + e_prop*dt
+
+	//Saturate integral error between lower and upper bounds
+	for (int i = 0; i < 3; i++){
+		PID.e_integ(i) = saturate(PID.e_integ(i), 
+			                     -PID.maxInteg(i), 
+			                      PID.maxInteg(i));
+	}
+}
+
+//Calculate output of PID
+Eigen::Vector3d outputPID(PID_3DOF PID){
+	Eigen::Vector3d PID_out;
+	PID_out =  PID.feedForward + 
+			   PID.e_prop.cwiseProduct(PID.K_p) + 
+			   PID.e_deriv.cwiseProduct(PID.K_d) + 
+			   PID.e_integ.cwiseProduct(PID.K_i);		
+	return PID_out;
+}
+
+//Initialize parameters for position control
+void initializePosControlParam(PosControlParam &Param,
+	                           double mass, double gz,
+	                           double thrustRatio){
+	Param.mass = mass;
+	Param.gz = gz;
+	Param.thrustRatio = thrustRatio;
+
+}
+
+void readROSparameterServer(PID_3DOF &PID, PosControlParam &Param){
+  ros::NodeHandle n;
+
+  double mass, gz, thrustRatio;
+  Eigen::Vector3d Kp, Ki, Kd, maxInteg; 
+  n.getParam("/px4_control_node/mass", mass);
+  n.getParam("/px4_control_node/gz", gz);
+  n.getParam("/px4_control_node/thrustRatio", thrustRatio);
+  initializePosControlParam(Param, mass, gz, thrustRatio);
+
+  ROS_INFO("mass: %f\n gz: %f\n thrustRatio: %f", mass, gz, thrustRatio);
+
+  n.getParam("/px4_control_node/kpx", Kp[0]);
+  n.getParam("/px4_control_node/kpy", Kp[1]);
+  n.getParam("/px4_control_node/kpz", Kp[2]);
+  n.getParam("/px4_control_node/kvx", Kd[0]);
+  n.getParam("/px4_control_node/kvy", Kd[1]);
+  n.getParam("/px4_control_node/kvz", Kd[2]);
+  n.getParam("/px4_control_node/kix", Ki[0]);
+  n.getParam("/px4_control_node/kiy", Ki[1]);
+  n.getParam("/px4_control_node/kiz", Ki[2]);
+  n.getParam("/px4_control_node/maxInteg_x", maxInteg[0]);
+  n.getParam("/px4_control_node/maxInteg_y", maxInteg[1]);
+  n.getParam("/px4_control_node/maxInteg_z", maxInteg[2]);
+
+  ROS_INFO("Kp: %f,\t%f,\t%f", Kp[0], Kp[1], Kp[2]);
+  ROS_INFO("Kd: %f,\t%f,\t%f", Kd[0], Kd[1], Kd[2]);
+  ROS_INFO("Ki: %f,\t%f,\t%f", Ki[0], Ki[1], Ki[2]);
+  ROS_INFO("maxInteg: %f,\t%f,\t%f\n", maxInteg[0], maxInteg[1], maxInteg[2]);
+
+  updateControlParamPID(PID, Kp, Ki, Kd, maxInteg);
+
+}
 
 void PosController(nav_msgs::Odometry Odom,
 	               PVA_structure PVA_ref,
@@ -33,7 +131,7 @@ void PosController(nav_msgs::Odometry Odom,
 	AccRef << PVA_ref.Acc.accel.linear.x,
 	          PVA_ref.Acc.accel.linear.y,
 	          PVA_ref.Acc.accel.linear.z;
-	yawRef = getHeadingFromQuat(Odom.pose.pose.orientation);
+	yawRef = getHeadingFromQuat(PVA_ref.Pos.pose.orientation);
 
 	//Current states
 	Pos << Odom.pose.pose.position.x,
@@ -58,7 +156,7 @@ void PosController(nav_msgs::Odometry Odom,
 	else{
 		e_Vel = VelRef - Rbw*Vel;
 	}
-
+	
 	//Translational controller
 	feedForward = m*gz*z_w + m*AccRef;
 	updateErrorPID(PosPID, feedForward, e_Pos, e_Vel, dt);
@@ -69,12 +167,11 @@ void PosController(nav_msgs::Odometry Odom,
 
 	//Find desired attitude from desired force and yaw angle
 	z_bdes = normalizeVector3d(Fdes);
-	x_cdes << 1, 0, 0;
+	x_cdes << cos(yawRef), sin(yawRef), 0;
 	y_bdes = normalizeVector3d(z_bdes.cross(x_cdes));
 	x_bdes = y_bdes.cross(z_bdes);
 	Rdes << x_bdes, y_bdes, z_bdes;
 
 	PoseRef.pose.position = PVA_ref.Pos.pose.position;
 	PoseRef.pose.orientation = rot2quat(Rdes);
-
 }

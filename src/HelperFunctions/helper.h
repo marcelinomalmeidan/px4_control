@@ -46,3 +46,8 @@ float max(double x, double y);
 // Saturate a value between minimum boundary and maximum boundary
 float saturate(double in, double min_val, double max_val);
 
+//Convert degree to radians
+double deg2rad(double degVal);
+
+//Convert radians to degrees
+double rad2deg(double radVal);

@@ -4,10 +4,21 @@
     name="px4_control_node"
     output="screen">
 
+    <!-- Joystick Attitude Reference parameters -->
+    <param name="RollMax" value="30.0"/>     <!-- degrees -->
+    <param name="PitchMax" value="30.0"/>    <!-- degrees -->
+    <param name="YawRateMax" value="45.0"/>  <!-- deg/sec -->
+    <param name="maxThrust" value="0.7"/>    <!-- From 0 to 1 -->
+
+    <!-- Joystick Position Reference parameters -->
+    <param name="xRate" value="1.0"/>       <!-- meters/sec -->
+    <param name="yRate" value="1.0"/>       <!-- meters/sec -->
+    <param name="zRate" value="0.5"/>       <!-- meters/sec -->
+
     <!-- Position Control parameters -->
-    <param name="mass" value="1.535"/>
-    <param name="gz" value="9.81"/>
-    <param name="thrustRatio" value="1.8"/>
+    <param name="mass" value="1.535"/>       <!-- kg -->
+    <param name="gz" value="9.81"/>          <!-- m/s^2 -->
+    <param name="thrustRatio" value="1.8"/>  <!-- maxThrust/Weight -->
     <param name="kpx" value="10"/>
     <param name="kpy" value="10"/>
     <param name="kpz" value="10"/>

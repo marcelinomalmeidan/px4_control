@@ -1,10 +1,4 @@
 #include "ros/ros.h"
-#include "std_msgs/String.h"
-#include "geometry_msgs/PoseArray.h"
-#include "visualization_msgs/MarkerArray.h"
-#include "mavros_msgs/PositionTarget.h"
-#include "mavros_msgs/State.h"
-#include "nav_msgs/Odometry.h"
 
 #include "structs.h"
 #include "HelperFunctions/helper.h"
@@ -15,10 +9,7 @@
 #include "Threads/commPub.h"
 
 #include <pthread.h>
-#include "boost/bind.hpp"
 
-#include <sstream>
-#include <iostream>
 
 // Global variables
 PVA_structure PVA_ref;
@@ -36,7 +27,6 @@ PosControlParam ControlParam;
 
 //Initialization settings
 char odomTopic[] = "/mavros/local_position/odom";
-char paramFile[] = "gazebo.csv"; //dragonfly gazebo
 char joyDriver[] = "joyXboxOne"; //joyXbox360 joyXbox360Wired joyXboxOne
 
 
@@ -53,6 +43,7 @@ int main(int argc, char **argv)
   initializeEvents(joyEvents, syncEvents);
   initializeMutexes(mutexes);
   initializeStateMachine(FSM);
+  initializePID(PosPID);
 
   printCurrentState(FSM);
 

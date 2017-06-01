@@ -133,3 +133,13 @@ float max(double x, double y)
 float saturate(double in, double min_val, double max_val){
 	return min(max(in, min_val), max_val);
 }
+
+//Convert degree to radians
+double deg2rad(double degVal){
+	return degVal*M_PI/180.0;
+}
+
+//Convert radians to degrees
+double rad2deg(double radVal){
+	return radVal*180.0/M_PI;
+}

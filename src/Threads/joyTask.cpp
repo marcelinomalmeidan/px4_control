@@ -1,5 +1,24 @@
 #include "joyTask.h"
 
+void loadJoyRefParam(double &RollMax, double &PitchMax, double &YawRateMax,
+	                 double &maxThrust, double &xRate, double &yRate, double &zRate){
+	
+	double RollMaxDeg, PitchMaxDeg, YawRateMaxDeg;
+	ros::NodeHandle n; 
+
+	n.getParam("/px4_control_node/RollMax", RollMaxDeg);
+  	n.getParam("/px4_control_node/PitchMax", PitchMaxDeg);
+  	n.getParam("/px4_control_node/YawRateMax", YawRateMaxDeg);
+  	n.getParam("/px4_control_node/maxThrust", maxThrust);
+  	n.getParam("/px4_control_node/xRate", xRate);
+  	n.getParam("/px4_control_node/yRate", yRate);
+  	n.getParam("/px4_control_node/zRate", zRate);
+
+  	RollMax = deg2rad(RollMaxDeg);
+  	PitchMax = deg2rad(PitchMaxDeg);
+  	YawRateMax = deg2rad(YawRateMaxDeg);
+}
+
 
 void *joyTaskTimer(void *threadID){
 
@@ -37,13 +56,13 @@ void *joyTask(void *threadID){
 	geometry_msgs::Vector3 RPY_ref, Vel_ref;	//Roll-pitch-yaw reference
 
 	//Max values for maneuvers
-	float RollMax = M_PI/6;
-	float PitchMax = M_PI/6;
-	float YawRateMax = M_PI/4;
-	float maxThrust = 0.6;
-	float xRate = 1.0;
-	float yRate = 1.0;
-	float zRate = 0.5;
+	double RollMax, PitchMax, YawRateMax, maxThrust;
+	double xRate, yRate, zRate;
+
+	//Load max values for maneuvers
+	loadJoyRefParam(RollMax, PitchMax, YawRateMax,
+	                maxThrust, xRate, yRate, zRate);
+
 
 	//Wait until first message comes in
 	localJoy.seq = -1;
