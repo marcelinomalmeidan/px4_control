@@ -29,6 +29,7 @@ bool updatePosControlParam(px4_control::updatePx4param::Request &req,
   ROS_INFO("Ki: %f,\t%f,\t%f", Ki[0], Ki[1], Ki[2]);
   ROS_INFO("maxInteg: %f,\t%f,\t%f\n", maxInteg[0], maxInteg[1], maxInteg[2]);
 
+  res.sucess = true;
 
 	return true;
 }
@@ -54,4 +55,8 @@ bool updateSystemParam(px4_control::updatePx4param::Request &req,
 	pthread_mutex_unlock(&mutexes.PID_Param);
 
 	ROS_INFO("mass: %f\tgz: %f\tthrustRatio: %f", mass, gz, thrustRatio);
+
+	res.sucess = true;
+
+	return true;
 }
