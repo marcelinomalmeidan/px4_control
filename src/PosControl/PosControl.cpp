@@ -66,36 +66,37 @@ void initializePosControlParam(PosControlParam &Param,
 }
 
 void readROSparameterServer(PID_3DOF &PID, PosControlParam &Param){
-  ros::NodeHandle n;
 
   double mass, gz, thrustRatio;
   Eigen::Vector3d Kp, Ki, Kd, maxInteg; 
-  n.getParam("/px4_control_node/mass", mass);
-  n.getParam("/px4_control_node/gz", gz);
-  n.getParam("/px4_control_node/thrustRatio", thrustRatio);
+
+  //Get system properties
+  ros::param::get("/px4_control_node/mass", mass);
+  ros::param::get("/px4_control_node/gz", gz);
+  ros::param::get("/px4_control_node/thrustRatio", thrustRatio);
   initializePosControlParam(Param, mass, gz, thrustRatio);
 
-  ROS_INFO("mass: %f\n gz: %f\n thrustRatio: %f", mass, gz, thrustRatio);
+  //Get controller parameters
+  ros::param::get("/px4_control_node/kpx", Kp[0]);
+  ros::param::get("/px4_control_node/kpy", Kp[1]);
+  ros::param::get("/px4_control_node/kpz", Kp[2]);
+  ros::param::get("/px4_control_node/kvx", Kd[0]);
+  ros::param::get("/px4_control_node/kvy", Kd[1]);
+  ros::param::get("/px4_control_node/kvz", Kd[2]);
+  ros::param::get("/px4_control_node/kix", Ki[0]);
+  ros::param::get("/px4_control_node/kiy", Ki[1]);
+  ros::param::get("/px4_control_node/kiz", Ki[2]);
+  ros::param::get("/px4_control_node/maxInteg_x", maxInteg[0]);
+  ros::param::get("/px4_control_node/maxInteg_y", maxInteg[1]);
+  ros::param::get("/px4_control_node/maxInteg_z", maxInteg[2]);
+  updateControlParamPID(PID, Kp, Ki, Kd, maxInteg);
 
-  n.getParam("/px4_control_node/kpx", Kp[0]);
-  n.getParam("/px4_control_node/kpy", Kp[1]);
-  n.getParam("/px4_control_node/kpz", Kp[2]);
-  n.getParam("/px4_control_node/kvx", Kd[0]);
-  n.getParam("/px4_control_node/kvy", Kd[1]);
-  n.getParam("/px4_control_node/kvz", Kd[2]);
-  n.getParam("/px4_control_node/kix", Ki[0]);
-  n.getParam("/px4_control_node/kiy", Ki[1]);
-  n.getParam("/px4_control_node/kiz", Ki[2]);
-  n.getParam("/px4_control_node/maxInteg_x", maxInteg[0]);
-  n.getParam("/px4_control_node/maxInteg_y", maxInteg[1]);
-  n.getParam("/px4_control_node/maxInteg_z", maxInteg[2]);
-
+  //Print all parameter values
+  ROS_INFO("mass: %f\tgz: %f\tthrustRatio: %f", mass, gz, thrustRatio);
   ROS_INFO("Kp: %f,\t%f,\t%f", Kp[0], Kp[1], Kp[2]);
   ROS_INFO("Kd: %f,\t%f,\t%f", Kd[0], Kd[1], Kd[2]);
   ROS_INFO("Ki: %f,\t%f,\t%f", Ki[0], Ki[1], Ki[2]);
   ROS_INFO("maxInteg: %f,\t%f,\t%f\n", maxInteg[0], maxInteg[1], maxInteg[2]);
-
-  updateControlParamPID(PID, Kp, Ki, Kd, maxInteg);
 
 }
 

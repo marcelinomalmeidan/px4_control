@@ -4,15 +4,14 @@ void loadJoyRefParam(double &RollMax, double &PitchMax, double &YawRateMax,
 	                 double &maxThrust, double &xRate, double &yRate, double &zRate){
 	
 	double RollMaxDeg, PitchMaxDeg, YawRateMaxDeg;
-	ros::NodeHandle n; 
 
-	n.getParam("/px4_control_node/RollMax", RollMaxDeg);
-  	n.getParam("/px4_control_node/PitchMax", PitchMaxDeg);
-  	n.getParam("/px4_control_node/YawRateMax", YawRateMaxDeg);
-  	n.getParam("/px4_control_node/maxThrust", maxThrust);
-  	n.getParam("/px4_control_node/xRate", xRate);
-  	n.getParam("/px4_control_node/yRate", yRate);
-  	n.getParam("/px4_control_node/zRate", zRate);
+	ros::param::get("/px4_control_node/RollMax", RollMaxDeg);
+  	ros::param::get("/px4_control_node/PitchMax", PitchMaxDeg);
+  	ros::param::get("/px4_control_node/YawRateMax", YawRateMaxDeg);
+  	ros::param::get("/px4_control_node/maxThrust", maxThrust);
+  	ros::param::get("/px4_control_node/xRate", xRate);
+  	ros::param::get("/px4_control_node/yRate", yRate);
+  	ros::param::get("/px4_control_node/zRate", zRate);
 
   	RollMax = deg2rad(RollMaxDeg);
   	PitchMax = deg2rad(PitchMaxDeg);

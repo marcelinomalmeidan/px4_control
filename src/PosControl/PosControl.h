@@ -29,7 +29,9 @@ void updateErrorPID(PID_3DOF &PID,
 Eigen::Vector3d outputPID(PID_3DOF PID);
 
 //Initialize parameters for position control
-void initializePosControlParam(PosControlParam &Param);
+void initializePosControlParam(PosControlParam &Param,
+	                           double mass, double gz,
+	                           double thrustRatio);
 
 //Load parameters from ROS parameter server
 void readROSparameterServer(PID_3DOF &PID, PosControlParam &Param);

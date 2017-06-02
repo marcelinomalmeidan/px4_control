@@ -7,6 +7,7 @@
 #include "Threads/FSMTask.h"
 #include "Threads/joyTask.h"
 #include "Threads/commPub.h"
+#include "Services/services.h"
 
 #include <pthread.h>
 
@@ -23,17 +24,11 @@ StateMachine FSM;
 int threadCount = 0;
 PID_3DOF PosPID;
 PosControlParam ControlParam;
-
-
-//Initialization settings
-char odomTopic[] = "/mavros/local_position/odom";
-char joyDriver[] = "joyXboxOne"; //joyXbox360 joyXbox360Wired joyXboxOne
-
+std::string odomTopic, joyDriver;
 
 int main(int argc, char **argv)
 {
   //Initialize ROS
-  printf("something\n");
   ros::init(argc, argv, "controlPkg");
   ros::NodeHandle n;  
 
@@ -44,11 +39,18 @@ int main(int argc, char **argv)
   initializeMutexes(mutexes);
   initializeStateMachine(FSM);
   initializePID(PosPID);
+  readROSparameterServer(PosPID, ControlParam);
 
+  //Print initial state of the finite state machine
   printCurrentState(FSM);
 
-  readROSparameterServer(PosPID, ControlParam);
-  
+  //Get odometry topic and joystick driver
+  ros::param::get("/px4_control_node/odomTopic", odomTopic);
+  ros::param::get("/px4_control_node/joyDriver", joyDriver);
+
+  //Create services ------------------------------------------
+  ros::ServiceServer PID_srv = n.advertiseService("/px4_control_node/updatePosControlParam", updatePosControlParam);
+  ros::ServiceServer Param_srv = n.advertiseService("/px4_control_node/updateQuadParam", updateSystemParam);
 
   //Publishers -----------------------------------------------
   ros::Publisher attPub    = n.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_attitude/attitude",10);
@@ -127,7 +129,7 @@ int main(int argc, char **argv)
 
 
   //Start loop ----------------------------------------------------
-  ros::Rate loop_rate(200);
+  ros::Rate loop_rate(500);
 
   int localThreadCount;
   while (ros::ok())

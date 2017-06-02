@@ -88,7 +88,6 @@ ROS_INFO("Command Publisher started!");
 	    	localParam = ControlParam;
 	    pthread_mutex_unlock(&mutexes.PID_Param);
 	    
-
 	    //Use appropriate settings depending on mode
 		if((localFSM.State == localFSM.MODE_POSITION_JOY) ||
 		   (localFSM.State == localFSM.MODE_POSITION_ROS)){

@@ -15,6 +15,13 @@
     <param name="yRate" value="1.0"/>       <!-- meters/sec -->
     <param name="zRate" value="0.5"/>       <!-- meters/sec -->
 
+    <!-- Topic with odometry information for the vehicle -->
+    <param name="odomTopic" value="/mavros/local_position/odom"/>
+
+    <!-- Type of joystick being used. Admitted types are:
+         joyXboxOne  /  joyXbox360  /  joyXbox360Wired -->
+    <param name="joyDriver" value="joyXboxOne"/>
+
     <!-- Position Control parameters -->
     <param name="mass" value="1.535"/>       <!-- kg -->
     <param name="gz" value="9.81"/>          <!-- m/s^2 -->
