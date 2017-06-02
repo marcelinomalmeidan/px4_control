@@ -42,5 +42,7 @@ PID = rosmessage('px4_control/updatePx4paramRequest');
 PID.Data = PID_Vec;
 
 %Send new values
-response = call(Param_srv,Param,'Timeout',2.0)
-response = call(PID_srv,PID,'Timeout',2.0)
+response = call(Param_srv,Param,'Timeout',2.0);
+response.Success
+response = call(PID_srv,PID,'Timeout',2.0);
+response.Success
