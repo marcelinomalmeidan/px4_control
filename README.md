@@ -61,8 +61,7 @@ catkin_make
 
 **The following joystick buttons correspond to:**
 
-![Xbox Controller](http://compass.xboxlive.com/assets/c7/a1/c7a12fbe-af04-4a90-92f2-18338219c2aa.png?n=one-controller-front-l.png "Xbox Controller")
-![Xbox Controller](http://compass.xboxlive.com/assets/0f/8b/0f8babd7-1e9e-4122-996a-9b81f9482679.png?n=one-controller-back-l.png "Xbox Controller")
+<img src="http://compass.xboxlive.com/assets/c7/a1/c7a12fbe-af04-4a90-92f2-18338219c2aa.png?n=one-controller-front-l.png" width="480"> <img src="http://compass.xboxlive.com/assets/0f/8b/0f8babd7-1e9e-4122-996a-9b81f9482679.png?n=one-controller-back-l.png" width="480">
 
 * A: Land Mode (turn motors off)
 * B: ROS Position Control Mode
