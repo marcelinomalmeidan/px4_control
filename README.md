@@ -78,7 +78,7 @@ All the controller PID parameters can be set in the .launch file. However, it mi
 
 	- ```rosservice call /px4_control_node/updateQuadParam '[0.5, 9.81, 2.4]'```
 
-```/px4_control_node/updatePosControlParam```: Used to update PID parameters if the following order: kpx, kpy, kpz, kvx, kvy, kvz, kix, kiy, kiz, maxInteg_x maxInteg_y maxInteg_z. An example of command line to call this service is shown below:
+- ```/px4_control_node/updatePosControlParam```: Used to update PID parameters if the following order: kpx, kpy, kpz, kvx, kvy, kvz, kix, kiy, kiz, maxInteg_x maxInteg_y maxInteg_z. An example of command line to call this service is shown below:
 
 	- ```rosservice call /px4_control_node/updatePosControlParam '[10, 10, 10, 5, 5, 7.5, 0, 0, 0, 0, 0, 0]'```
 
