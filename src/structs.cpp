@@ -72,6 +72,7 @@ void destroyEvents(joyEventList &JoyEvents, syncEventList &SyncEvents){
 
 void initializeMutexes(mutexStruct &mutexes){
 	pthread_mutex_init(&mutexes.PVAref, NULL);
+	pthread_mutex_init(&mutexes.PVA_ros, NULL);
 	pthread_mutex_init(&mutexes.PX4state, NULL);
 	pthread_mutex_init(&mutexes.odom, NULL);
 	pthread_mutex_init(&mutexes.joy, NULL);
@@ -84,6 +85,7 @@ void initializeMutexes(mutexStruct &mutexes){
 
 void destroyMutexes(mutexStruct &mutexes){
 	pthread_mutex_destroy(&mutexes.PVAref);
+	pthread_mutex_destroy(&mutexes.PVA_ros);
 	pthread_mutex_destroy(&mutexes.PX4state);
 	pthread_mutex_destroy(&mutexes.odom);
 	pthread_mutex_destroy(&mutexes.joy);

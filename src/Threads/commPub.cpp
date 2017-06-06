@@ -79,9 +79,21 @@ ROS_INFO("Command Publisher started!");
 	    pthread_mutex_unlock(&mutexes.odom);
 
 	    //Get reference PVA
-	    pthread_mutex_lock(&mutexes.PVAref);
-	    	localPVA_ref = PVA_ref;
-	    pthread_mutex_unlock(&mutexes.PVAref);
+	    if(localFSM.State == localFSM.MODE_POSITION_ROS){
+		    pthread_mutex_lock(&mutexes.PVA_ros);
+		    	localPVA_ref.Pos.pose.position = PVA_Ros.Pos;
+		    	localPVA_ref.Pos.pose.orientation = 
+							rpy2quat(SetVector3(0, 0, PVA_Ros.yaw));
+		    	localPVA_ref.Vel.twist.linear = PVA_Ros.Vel;
+		    	localPVA_ref.Acc.accel.linear = PVA_Ros.Acc;
+		    pthread_mutex_unlock(&mutexes.PVA_ros);
+	    }
+	    else{
+		    pthread_mutex_lock(&mutexes.PVAref);
+		    	localPVA_ref = PVA_ref;
+		    pthread_mutex_unlock(&mutexes.PVAref);
+	    }
+
 
 	    //Get position controller parameters
 	    pthread_mutex_lock(&mutexes.PID_Param);
@@ -100,17 +112,17 @@ ROS_INFO("Command Publisher started!");
 		   	else if (localFSM.PosControlMode == localFSM.POS_CONTROL_PX4){
 				refThrust.data = 0;
 				PoseRef.pose.orientation = setQuat(0, 0, 0, 1);
-				PoseRef.pose = PVA_ref.Pos.pose;
+				PoseRef.pose = localPVA_ref.Pos.pose;
 		   	}
 		}
 		else if(localFSM.State == localFSM.MODE_ATTITUDE){
-	    	refThrust = PVA_ref.thrustRef;
-	    	PoseRef.pose = PVA_ref.Pos.pose;
+	    	refThrust = localPVA_ref.thrustRef;
+	    	PoseRef.pose = localPVA_ref.Pos.pose;
 
 		}
 		else{
 	    	refThrust.data = 0;
-	    	PoseRef.pose = odom.pose.pose;
+	    	PoseRef.pose = localOdom.pose.pose;
 		}
 
 		//Set header for reference

@@ -51,8 +51,10 @@ void *joyTask(void *threadID){
 	joyStruct localJoy; 			//Used to save global variable into local scope
 	StateMachine localFSM;			//Save state machine data locally
 	nav_msgs::Odometry localOdom;	//Save odometry data locally
-	float yawDot;
 	geometry_msgs::Vector3 RPY_ref, Vel_ref;	//Roll-pitch-yaw reference
+	PVA_structure localPVA_ref;
+	float yawDot;
+
 
 	//Max values for maneuvers
 	double RollMax, PitchMax, YawRateMax, maxThrust;
@@ -66,10 +68,11 @@ void *joyTask(void *threadID){
 	//Wait until first message comes in
 	localJoy.seq = -1;
 	while(localJoy.seq <= 0){
-		usleep(100000);	//Sleep for 100ms
+		usleep(1000000);	//Sleep for 1s
 		pthread_mutex_lock(&mutexes.joy);
 	    	localJoy = joy;
 	    pthread_mutex_unlock(&mutexes.joy);
+	    ROS_INFO("Waiting for joystick data...");
 	}
 	prevJoy = localJoy;
 
@@ -196,6 +199,22 @@ void *joyTask(void *threadID){
 		    pthread_mutex_unlock(&mutexes.PVAref);
 		    RPY_ref.z = getHeadingFromQuat(localOdom.pose.pose.orientation);
 		}
+
+		//Set PVA_Ros structure to current states when not in PVA_ROS
+		//  mode - avoids jumps when switching states
+		if(localFSM.State != localFSM.MODE_POSITION_ROS){
+		    pthread_mutex_lock(&mutexes.PVAref);
+		    	localPVA_ref = PVA_ref;
+		    pthread_mutex_unlock(&mutexes.PVAref);
+
+			pthread_mutex_lock(&mutexes.PVA_ros);
+		    	PVA_Ros.Pos = localPVA_ref.Pos.pose.position;
+		    	PVA_Ros.yaw = getHeadingFromQuat(localOdom.pose.pose.orientation);
+		    	PVA_Ros.Vel = SetVector3(0, 0, 0);
+		    	PVA_Ros.Acc = SetVector3(0, 0, 0);
+		    pthread_mutex_unlock(&mutexes.PVA_ros);	
+		}
+		
 
 	}
 

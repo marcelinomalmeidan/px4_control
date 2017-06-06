@@ -1,7 +1,7 @@
 #include "FSMTask.h"
 
 void *FSMTask(void *threadID){
-	ROS_INFO("FSM Thread started!");
+	ROS_INFO("State Machine Thread started!");
 
 	StateMachine localFSM;	//Save state machine data locally
 	mavros_msgs::State localPX4state;
@@ -30,7 +30,7 @@ void *FSMTask(void *threadID){
 			break;
 		}
 
-		//Check events for change of state
+		//Check events for change of state and print when changing states
 		if(WaitForEvent(joyEvents.buttonA,0) == 0){
 			ROS_INFO("Disarming...");
 		    pthread_mutex_lock(&mutexes.FSM);
@@ -38,8 +38,10 @@ void *FSMTask(void *threadID){
 		    pthread_mutex_unlock(&mutexes.FSM);
 		}
 		if(WaitForEvent(joyEvents.buttonB,0) == 0){
-			ROS_INFO("ROS Postion Mode!");
 		    pthread_mutex_lock(&mutexes.FSM);
+			    if(FSM.State != FSM.MODE_POSITION_ROS){
+			    	ROS_INFO("ROS Position Mode!");
+			    }
 		    	FSM.State = FSM.MODE_POSITION_ROS;
 		    pthread_mutex_unlock(&mutexes.FSM);
 		    // e_ROS_PosModeSet = 1;   %Flag that tells the RefPubThread that this mode was just enabled
@@ -116,7 +118,7 @@ void *FSMTask(void *threadID){
 
 	}
 
-	ROS_INFO("Exiting FSM Thread...");
+	ROS_INFO("Exiting State Machine Thread...");
 	
 	pthread_mutex_lock(&mutexes.threadCount);
         threadCount -= 1;

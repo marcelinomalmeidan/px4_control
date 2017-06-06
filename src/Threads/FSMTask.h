@@ -5,7 +5,7 @@
 #include "../globals.h"
 #include "ros/ros.h"
 
-//State Machine task
+//State Machine thread
 void *FSMTask(void *threadID);
 
 #endif

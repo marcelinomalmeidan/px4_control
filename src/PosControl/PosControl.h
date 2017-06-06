@@ -36,6 +36,7 @@ void initializePosControlParam(PosControlParam &Param,
 //Load parameters from ROS parameter server
 void readROSparameterServer(PID_3DOF &PID, PosControlParam &Param);
 
+//Quadcopter position control
 void PosController(nav_msgs::Odometry Odom,
 	               PVA_structure PVA_ref,
 	               PosControlParam Param,

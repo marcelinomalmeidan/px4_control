@@ -19,15 +19,20 @@ find_package(catkin REQUIRED COMPONENTS
   cmake_modules
 )
 
+add_message_files(DIRECTORY msg FILES
+   PVA.msg
+ )
+
 find_package(Eigen REQUIRED)
 
 #Add service files
 add_service_files( FILES
-updatePx4param.srv
+  updatePx4param.srv
 )
 
 generate_messages( DEPENDENCIES
-std_msgs
+  std_msgs
+  geometry_msgs
 )
 
 catkin_package(
@@ -44,7 +49,6 @@ include_directories(
   ${Eigen_INCLUDE_DIRS}
 )
 
-
 add_executable(px4_control_node 
 	           src/px4_control.cpp 
 	           src/HelperFunctions/helper.cpp
@@ -59,5 +63,8 @@ add_executable(px4_control_node
              src/Services/services.cpp
              src/structs.cpp)
 target_link_libraries(px4_control_node ${catkin_LIBRARIES})
-add_dependencies(px4_control_node beginner_tutorials_generate_messages_cpp)
+
+#This makes sure that messages and services are compiled before the rest
+add_dependencies(px4_control_node msg_pkg_generate_messages_cpp)
+add_dependencies(px4_control_node ${catkin_EXPORTED_TARGETS})
 

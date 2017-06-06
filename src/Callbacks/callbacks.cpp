@@ -40,3 +40,9 @@ void joyCallback(const sensor_msgs::Joy msg){
 	    
 	// printJoyValues(joy);
 }
+
+void PVACallback(const px4_control::PVA::ConstPtr &msg){
+	pthread_mutex_lock(&mutexes.PVA_ros);
+    	PVA_Ros = *msg;
+    pthread_mutex_unlock(&mutexes.PVA_ros);
+}

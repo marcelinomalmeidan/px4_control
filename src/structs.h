@@ -11,6 +11,7 @@
 #include "HelperFunctions/helper.h"
 #include "HelperFunctions/QuatRotEuler.h"
 
+//Structure used in this code to pass PVA references
 struct PVA_structure{
   geometry_msgs::PoseStamped  Pos;
   geometry_msgs::TwistStamped Vel;
@@ -18,6 +19,7 @@ struct PVA_structure{
   std_msgs::Float64 thrustRef;
 };
 
+//Incoming data from joysticks
 struct joyStruct{
 	int seq; //Sequence of the message
 	int buttonA;
@@ -41,6 +43,7 @@ struct joyStruct{
 	double R2;
 };
 
+//Event handlers that are triggered when joystick buttons are pushed
 struct joyEventList{
 	neosmart::neosmart_event_t buttonA;
 	neosmart::neosmart_event_t buttonB;
@@ -64,8 +67,10 @@ struct syncEventList{
 	neosmart::neosmart_event_t CommPub_trigger; //triggers joystick thread
 };
 
+//Mutexes for safely sharing data between threads
 struct mutexStruct{
 	pthread_mutex_t PVAref;
+	pthread_mutex_t PVA_ros;
 	pthread_mutex_t PX4state;
 	pthread_mutex_t odom;
 	pthread_mutex_t joy;
@@ -76,6 +81,7 @@ struct mutexStruct{
 	pthread_mutex_t PID_Param;
 };
 
+//Data for state machine
 struct StateMachine{
 	int MODE_DISARM;
 	int MODE_ATTITUDE;
@@ -89,6 +95,7 @@ struct StateMachine{
 	int PosControlMode;
 };
 
+//Structure for a PID with 3 degrees-of-freedom
 struct PID_3DOF{
 	Eigen::Vector3d e_prop;
 	Eigen::Vector3d e_deriv;
@@ -100,6 +107,7 @@ struct PID_3DOF{
 	Eigen::Vector3d maxInteg;
 };
 
+//Quadcopter parameters
 struct PosControlParam{
 	double mass;
 	double gz;

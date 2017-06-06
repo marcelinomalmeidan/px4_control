@@ -107,6 +107,8 @@ void PosController(nav_msgs::Odometry Odom,
 	               PID_3DOF &PosPID,
 	               geometry_msgs::PoseStamped &PoseRef,
 	               std_msgs::Float64 &refThrust){
+
+	//Local variables
 	double m = Param.mass;
 	double gz = Param.gz;
 	double maxThrust = Param.thrustRatio*m*gz;
@@ -173,6 +175,7 @@ void PosController(nav_msgs::Odometry Odom,
 	x_bdes = y_bdes.cross(z_bdes);
 	Rdes << x_bdes, y_bdes, z_bdes;
 
+	//Set references
 	PoseRef.pose.position = PVA_ref.Pos.pose.position;
 	PoseRef.pose.orientation = rot2quat(Rdes);
 }

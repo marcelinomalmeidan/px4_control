@@ -7,8 +7,10 @@
 #include "../structs.h"
 #include "../globals.h"
 
+//Thread for triggering commPubTask
 void *commPubTimer(void *threadID);
 
+//Thread for sending reference commands to PX4 (attitude / position)
 void *commPubTask(void *threadID);
 
 #endif

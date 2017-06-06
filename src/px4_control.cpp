@@ -13,7 +13,8 @@
 
 
 // Global variables
-PVA_structure PVA_ref;
+PVA_structure PVA_ref;        //Joystick references
+px4_control::PVA PVA_Ros;     //References from topic
 mavros_msgs::State PX4state;
 nav_msgs::Odometry odom;
 joyStruct joy;
@@ -52,15 +53,11 @@ int main(int argc, char **argv)
   ros::ServiceServer PID_srv = n.advertiseService("/px4_control_node/updatePosControlParam", updatePosControlParam);
   ros::ServiceServer Param_srv = n.advertiseService("/px4_control_node/updateQuadParam", updateSystemParam);
 
-  //Publishers -----------------------------------------------
-  ros::Publisher attPub    = n.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_attitude/attitude",10);
-  ros::Publisher thrustPub = n.advertise<std_msgs::Float64>("/mavros/setpoint_attitude/att_throttle",10);
-  ros::Publisher posPub    = n.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_position/local",10);
-
   //Subscribers ----------------------------------------------
   ros::Subscriber stateSub = n.subscribe("mavros/state", 10, stateCallback);
   ros::Subscriber odomSub = n.subscribe(odomTopic, 10, odomCallback);
   ros::Subscriber joySub = n.subscribe("joy", 10, joyCallback);
+  ros::Subscriber PvaSub = n.subscribe("/px4_control/PVA_Ref", 10, PVACallback);
 
   //Threads --------------------------------------------------
   pthread_t h_FSMThread;      //Finite state machine
@@ -72,7 +69,7 @@ int main(int argc, char **argv)
 
   //Start  finite state machine
   if (ReturnCode = pthread_create(&h_FSMThread, NULL, FSMTask, NULL)){
-    printf("Start FSM failed; return code from pthread_create() is %d\n", ReturnCode);
+    printf("Start State Machine failed; return code from pthread_create() is %d\n", ReturnCode);
     exit(-1);
   }
   else{

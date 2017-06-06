@@ -88,6 +88,10 @@ float normPoint(geometry_msgs::Point Pt){
 	return norm;
 }
 
+void printPoint(geometry_msgs::Point Pt){
+	ROS_INFO("Value %f %f %f", Pt.x, Pt.y, Pt.z);
+}
+
 Eigen::Matrix3d skew(float x, float y, float z){
 	Eigen::Matrix3d M;
 
@@ -108,14 +112,14 @@ Eigen::Vector3d normalizeVector3d(Eigen::Vector3d V){
 	}
 }
 
-nav_msgs::Path getEmptyPathMsg(){
-	nav_msgs::Path PathMsg;
-	PathMsg.header.seq = 1;
-	PathMsg.header.stamp = ros::Time::now();
-	PathMsg.header.frame_id = "fcu";
+// nav_msgs::Path getEmptyPathMsg(){
+// 	nav_msgs::Path PathMsg;
+// 	PathMsg.header.seq = 1;
+// 	PathMsg.header.stamp = ros::Time::now();
+// 	PathMsg.header.frame_id = "fcu";
 
-	return PathMsg;
-}
+// 	return PathMsg;
+// }
 
 /* Minimum function */
 float min(double x, double y)

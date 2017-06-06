@@ -133,7 +133,7 @@ PVA_structure filterJoy(PVA_structure PVA_ref,
 	const double wn = 5.0;		//Time constant = 1/5
 	Eigen::Matrix3d I_3x3 = Eigen::Matrix3d::Identity(3,3);
 
-	//Low pass filter continuous model
+	//Second order low pass filter continuous model
 	Eigen::Matrix3d A;
 	Eigen::Vector3d B;
 

@@ -120,6 +120,7 @@ Eigen::Matrix3d quat2rot(geometry_msgs::Quaternion quat){
     return R;
 }
 
+//http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
 geometry_msgs::Quaternion rot2quat(Eigen::Matrix3d M){
 	double trace = M.trace();
 
