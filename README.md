@@ -62,16 +62,17 @@ catkin_make
 **The following joystick buttons correspond to:**
 
 ![Xbox Controller](http://compass.xboxlive.com/assets/c7/a1/c7a12fbe-af04-4a90-92f2-18338219c2aa.png?n=one-controller-front-l.png "Xbox Controller")
+![Xbox Controller](http://compass.xboxlive.com/assets/0f/8b/0f8babd7-1e9e-4122-996a-9b81f9482679.png?n=one-controller-back-l.png "Xbox Controller")
 
 * A: Land Mode (turn motors off)
 * B: ROS Position Control Mode
 	* Position references come from the topic ```/px4_control/PVA_Ref```
 * X: Joystick Position Control Mode
-	* Altitude can be changed using LB and RB. Horizontal translation can be changed using the Right Stick. Yaw reference is changed when pushing LT and RT.
+	* Altitude can be changed using LB (2) and RB (7). Horizontal translation can be changed using the Right Stick (10). Yaw reference is changed when pushing LT (14) and RT (11).
 * Y: Joystick Attitude Mode.
-	* Roll and Pitch are commanded through the Joystick's Right Stick. Thrust is commanded through the Left Stick. Yaw reference is changed when pushing LT and RT.
-* Directional Pad (Left): Select Local Position Control mode. 
-* Directional Pad (Right): Select Px4 Position Control mode. 
+	* Roll and Pitch are commanded through the Joystick's Right Stick (10). Thrust is commanded through the Left Stick (1). Yaw reference is changed when pushing LT (14) and RT (11).
+* 8 (Left): Select Local Position Control mode. 
+* 8 (Right): Select Px4 Position Control mode. 
 
 
 ## Tuning Position Controller PID
