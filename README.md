@@ -8,7 +8,7 @@ This software has three different modes that one can choose from:
 - Local Position Control mode: this mode gets Position+Velocity+Acceleration references, calculates control commands and sends thrust + attitude to Px4. The controller is based on:
 http://ieeexplore.ieee.org/abstract/document/5717652/
 
-- Px4 Position Control mode: this mode gets position referencesand sends them to Px4's own position controller. 
+- Px4 Position Control mode: this mode gets position references and sends them to Px4's own position controller. 
 
 The References for the previously mentioned Position Controllers can come from two different sources:
 
@@ -51,7 +51,7 @@ catkin_make
 
 ## Testing
 
-- We recommend test in simulation before testing with a real Quadcopter. Examples of simulation environments can be Gazebo (https://dev.px4.io/en/simulation/gazebo.html) or Microsoft's Airsim (https://github.com/Microsoft/AirSim).
+- We recommend test in simulation before testing with a real Quadcopter. Examples of PX4 simulation environments are Gazebo (https://dev.px4.io/en/simulation/gazebo.html) or Microsoft's Airsim (https://github.com/Microsoft/AirSim).
 
 - In order to test the software from this repo, the following steps should be taken:
 	- Run PX4 software
@@ -68,3 +68,18 @@ catkin_make
 	* Altitude can be changed using LB and RB. Horizontal translation can be changed using the Right Analog Directional. Yaw reference is changed when pushing LT and RT.
 * Y: Joystick Attitude Mode.
 	* Roll and Pitch are commanded through the Joystick's Right Analog Directional. Thrust is commanded through the Left Analog Directional. Yaw reference is changed when pushing LT and RT.
+
+
+## Tuning Position Controller PID
+
+All the controller PID parameters can be set in the .launch file. However, it might be tedious to stop the controller every time that one wants to change/tune the PID gains. In order to avoid stopping the controller for every parameter change, the following services are implemented:
+
+- ```/px4_control_node/updateQuadParam```: Used to update flight parameters in the following order: mass, gravity and thrustRatio. This can be called in line command as below:
+
+	- ```rosservice call /px4_control_node/updateQuadParam '[0.5, 9.81, 2.4]'```
+
+```/px4_control_node/updatePosControlParam```: Used to update PID parameters if the following order: kpx, kpy, kpz, kvx, kvy, kvz, kix, kiy, kiz, maxInteg_x maxInteg_y maxInteg_z. An example of command line to call this service is shown below:
+
+	- ```rosservice call /px4_control_node/updatePosControlParam '[10, 10, 10, 5, 5, 7.5, 0, 0, 0, 0, 0, 0]'```
+
+An alternative to call these parameters is to use the Matlab script in ```/Extras/SetParametersGazebo.m```. However, this requires Matlab with the Robotics Toolbox installed. 
