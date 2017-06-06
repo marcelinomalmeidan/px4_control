@@ -18,7 +18,7 @@ The References for the previously mentioned Position Controllers can come from t
 
 ## Dependencies
 
-- This software was developed for ROS Kinetic in Ubuntu 16.04. We haven't tested for other distributions. See installation procedure in ```http://wiki.ros.org/kinetic/Installation/Ubuntu ```
+- This software was developed for ROS Kinetic in Ubuntu 16.04. We haven't tested for other distributions. See installation procedure in http://wiki.ros.org/kinetic/Installation/Ubuntu.
 
 - Eigen
 
