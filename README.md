@@ -26,7 +26,7 @@ The References for the previously mentioned Position Controllers can come from t
 
 - MAVROS
 
-``` sudo apt-get install ros-kinetic-mavros ros-indigo-mavros-extras```
+``` sudo apt-get install ros-kinetic-mavros ros-kinetic-mavros-extras```
 
 - ROS Joystick Drivers (we have only tested Wired XBox One, Wireless Xbox 360, and Wired Xbox 360 controllers):
 
@@ -39,7 +39,7 @@ The References for the previously mentioned Position Controllers can come from t
 
 ```
 cd ~/catkin_ws/src
-git clone git@github.com:marcelinomalmeidan/px4_control.git
+git clone https://github.com/marcelinomalmeidan/px4_control.git
 ```
 
 - Compile the catkin workspace, e.g.:
