@@ -55,14 +55,21 @@ catkin_make
 
 - In order to test the software from this repo, the following steps should be taken:
 	- Run PX4 software
-	- Run MAVROS (an example of .launch file is in ```/Extras```)
-	- Run Joystick driver (an example of .launch file is in ```/Extras```)
-	- Run px4_control (examples of .launch files can be found in ```/launch```)
+	- Run MAVROS (an example of .launch file is in ```/Extras/px4.launch```)
+		- You will have to change the argument ```fcu_url``` in px4.launch to match the IP/Ports used by your PX4 software.
+		- ```roslaunch px4.launch```
+	- Run Joystick driver (an example of .launch file is in ```/Extras/joy.launch```)
+		- Make sure you have a joystick connected to the computer.
+		- ```roslaunch joy.launch```
+	- Run px4_control (examples of .launch files can be found in ```/launch/dragonfly.launch``` or ```/launch/gazebo.launch```)
+		- Make sure to tune the parameters in the .launch files. For instance, the flight performance depends largely on the "mass" and "thrustRatio" parameters. Also, you have to choose the appropriate joystick driver from one of the three (joyXboxOne  /  joyXbox360  /  joyXbox360Wired) in the .launch file. I suggest to create our own launch file for tuning, e.g., myQuad.launch.
+		- ```roslaunch px4_control myQuad.launch```
 
 **The following joystick buttons correspond to:**
 
 <img src="http://compass.xboxlive.com/assets/c7/a1/c7a12fbe-af04-4a90-92f2-18338219c2aa.png?n=one-controller-front-l.png" width="480"> <img src="http://compass.xboxlive.com/assets/0f/8b/0f8babd7-1e9e-4122-996a-9b81f9482679.png?n=one-controller-back-l.png" width="480">
 
+* Select (3): Terminate program and shut down this ROS node.
 * A: Land Mode (turn motors off)
 * B: ROS Position Control Mode
 	* Position references come from the topic ```/px4_control/PVA_Ref```
