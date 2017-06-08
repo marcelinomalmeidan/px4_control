@@ -55,12 +55,12 @@ catkin_make
 
 - In order to test the software from this repo, the following steps should be taken:
 	- Run PX4 software
-	- Run MAVROS (an example of .launch file is in ```/Extras/px4.launch```)
+	- Run MAVROS (an example of .launch file is in ```/launch/px4.launch```)
 		- You will have to change the argument ```fcu_url``` in px4.launch to match the IP/Ports used by your PX4 software.
-		- ```roslaunch px4.launch```
-	- Run Joystick driver (an example of .launch file is in ```/Extras/joy.launch```)
+		- ```roslaunch px4_control px4.launch```
+	- Run Joystick driver (an example of .launch file is in ```/launch/joy.launch```)
 		- Make sure you have a joystick connected to the computer.
-		- ```roslaunch joy.launch```
+		- ```roslaunch px4_control joy.launch```
 	- Run px4_control (examples of .launch files can be found in ```/launch/dragonfly.launch``` or ```/launch/gazebo.launch```)
 		- Make sure to tune the parameters in the .launch files. For instance, the flight performance depends largely on the "mass" and "thrustRatio" parameters. Also, you have to choose the appropriate joystick driver from one of the three (joyXboxOne  /  joyXbox360  /  joyXbox360Wired) in the .launch file. I suggest to create our own launch file for tuning, e.g., myQuad.launch.
 		- ```roslaunch px4_control myQuad.launch```
