@@ -85,7 +85,7 @@ catkin_make
 
 All the controller PID parameters can be set in the .launch file. However, it might be tedious to stop the controller every time that one wants to change/tune the PID gains. In order to avoid stopping the controller for every parameter change, the following services are implemented:
 
-- ```/px4_control_node/updateQuadParam```: Used to update flight parameters in the following order: mass, gravity and thrustRatio. This can be called in line command as below:
+- ```/px4_control_node/updateQuadParam```: Used to update flight parameters in the following order: mass, gravity and thrustRatio. This can be called in command line as below:
 
 	- ```rosservice call /px4_control_node/updateQuadParam '[0.5, 9.81, 2.4]'```
 
