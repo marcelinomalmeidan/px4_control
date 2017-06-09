@@ -29,10 +29,12 @@ The References for the previously mentioned Position Controllers can come from t
 ``` sudo apt-get install ros-kinetic-mavros ros-kinetic-mavros-extras```
 
 - ROS Joystick Drivers (we have only tested Wired XBox One, Wireless Xbox 360, and Wired Xbox 360 controllers). Copy it to your catkin workspace and compile it, e.g.:
-```cd ~/catkin_ws/src
+```
+cd ~/catkin_ws/src
 git clone https://github.com/radionavlab/joystick_drivers
 cd ..
-catkin_make```
+catkin_make
+```
 
 
 ## Compiling
