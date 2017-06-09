@@ -30,7 +30,7 @@ The References for the previously mentioned Position Controllers can come from t
 
 - ROS Joystick Drivers (we have only tested Wired XBox One, Wireless Xbox 360, and Wired Xbox 360 controllers):
 
-```https://github.com/ros-drivers/joystick_drivers```
+```https://github.com/radionavlab/joystick_drivers```
 
 
 ## Compiling
