@@ -98,3 +98,9 @@ All the controller PID parameters can be set in the .launch file. However, it mi
 	- ```rosservice call /px4_control_node/updatePosControlParam '[10, 10, 10, 5, 5, 7.5, 0, 0, 0, 0, 0, 0]'```
 
 An alternative to call these parameters is to use the Matlab script in ```/Extras/SetParametersGazebo.m```. However, this requires Matlab with the Robotics Toolbox installed. 
+
+## RVIZ configuration file
+
+An RVIZ configuration file can be found in ```/Extras/rvizConfig.rviz```. This configuration allows a user to see frames for position and references for the quadcopter.
+
+	- ```rosrun rviz rviz -d ~/catkin_ws/src/px4_control/Extras/rvizConfig.rviz```
