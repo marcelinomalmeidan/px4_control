@@ -103,4 +103,4 @@ An alternative to call these parameters is to use the Matlab script in ```/Extra
 
 An RVIZ configuration file can be found in ```/Extras/rvizConfig.rviz```. This configuration allows a user to see frames for position and references for the quadcopter.
 
-```rosrun rviz rviz -d ~/catkin_ws/src/px4_control/Extras/rvizConfig.rviz ```.
+	- ```rosrun rviz rviz -d ~/catkin_ws/src/px4_control/Extras/rvizConfig.rviz ```
