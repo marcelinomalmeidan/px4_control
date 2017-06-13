@@ -185,6 +185,10 @@ void *joyTask(void *threadID){
 		}
 		else if(localFSM.State == localFSM.MODE_POSITION_ROS){
 			pthread_mutex_lock(&mutexes.PVAref);
+				PVA_ref.Pos.pose.position = localOdom.pose.pose.position;
+		    	PVA_ref.Pos.pose.orientation = localOdom.pose.pose.orientation;
+		    	PVA_ref.Vel.twist.linear = SetVector3(0, 0, 0);
+		    	PVA_ref.Acc.accel.linear = SetVector3(0, 0, 0);
 		    	PVA_ref.thrustRef.data = 0.0;
 		    pthread_mutex_unlock(&mutexes.PVAref);
 		    RPY_ref.z = getHeadingFromQuat(localOdom.pose.pose.orientation);

@@ -25,7 +25,7 @@
     <!-- Position Control parameters -->
     <param name="mass" value="1.535"/>       <!-- kg -->
     <param name="gz" value="9.81"/>          <!-- m/s^2 -->
-    <param name="thrustRatio" value="1.8"/>  <!-- maxThrust/Weight -->
+    <param name="thrustRatio" value="1.7"/>  <!-- maxThrust/Weight -->
     <param name="kpx" value="10"/>
     <param name="kpy" value="10"/>
     <param name="kpz" value="10"/>

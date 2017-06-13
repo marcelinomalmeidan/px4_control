@@ -12,7 +12,7 @@ rosinit;
 %Vehicle parameters
 mass = 1.535;
 gz = 9.81;
-thrustRatio = 1.8;
+thrustRatio = 1.7;
 
 %Controller parameters
 Kpx = 10;
