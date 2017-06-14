@@ -127,7 +127,7 @@ joyStruct driverXbox360Wired(sensor_msgs::Joy msg){
 }
 
 PVA_structure filterJoy(PVA_structure PVA_ref,
-                        geometry_msgs::Vector3 Vel_ref,
+                        Eigen::Vector3d Vel_ref,
                         double dt, double TimeConstant){
 	const double zeta = 1.0;	//Critically damped
 	const double wn = 1.0/TimeConstant;		//Time constant = 1/(zeta.wn)
@@ -156,17 +156,17 @@ PVA_structure filterJoy(PVA_structure PVA_ref,
 	        PVA_ref.Vel.twist.linear.z,
 	        PVA_ref.Acc.accel.linear.z;
 
-	//Inputs to the system
-	Eigen::Vector3d U;
-	U << Vel_ref.x,
-	     Vel_ref.y,
-	     Vel_ref.z;
+	// //Inputs to the system
+	// Eigen::Vector3d U;
+	// U << Vel_ref.x,
+	//      Vel_ref.y,
+	//      Vel_ref.z;
 
 	//Propagate states (crude euler integration)
 	Eigen::Vector3d Xk1_x, Xk1_y, Xk1_z;
-	Xk1_x = (I_3x3 + A*dt)*Xk_x + dt*B*U[0];
-	Xk1_y = (I_3x3 + A*dt)*Xk_y + dt*B*U[1];
-	Xk1_z = (I_3x3 + A*dt)*Xk_z + dt*B*U[2];
+	Xk1_x = (I_3x3 + A*dt)*Xk_x + dt*B*Vel_ref[0];
+	Xk1_y = (I_3x3 + A*dt)*Xk_y + dt*B*Vel_ref[1];
+	Xk1_z = (I_3x3 + A*dt)*Xk_z + dt*B*Vel_ref[2];
 
 	//Update PVA structure
 	PVA_structure PVA_ref_new;

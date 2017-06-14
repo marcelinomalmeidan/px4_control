@@ -51,11 +51,13 @@ void *joyTask(void *threadID){
 	//Local variables
 	joyStruct prevJoy;  			//Save last value from joystick
 	joyStruct localJoy; 			//Used to save global variable into local scope
+	PVA_structure localPVA_ref;		//Used to save global variable into local scope
 	StateMachine localFSM;			//Save state machine data locally
 	nav_msgs::Odometry localOdom;	//Save odometry data locally
-	geometry_msgs::Vector3 RPY_ref, Vel_ref;	//Roll-pitch-yaw reference
-	PVA_structure localPVA_ref;
+	geometry_msgs::Vector3 RPY_ref; //Roll-pitch-yaw reference
+	Eigen::Vector3d Vel_ref;		//Reference velocity in position control
 	float yawDot;
+	Eigen::Matrix3d Rz;				//Rotation matrix around z axis
 
 
 	//Max values for maneuvers
@@ -155,15 +157,21 @@ void *joyTask(void *threadID){
 		//Update references in Joystick Reference Modes
 		if(localFSM.State == localFSM.MODE_POSITION_JOY){
 			//Reference velocity
-			Vel_ref.x = xRate*localJoy.RstickVer;
-			Vel_ref.y = yRate*localJoy.RstickHor;
-			Vel_ref.z = zRate*(localJoy.buttonR1 - localJoy.buttonL1);
+			Vel_ref[0] = xRate*localJoy.RstickVer;
+			Vel_ref[1] = yRate*localJoy.RstickHor;
+			Vel_ref[2] = zRate*(localJoy.buttonR1 - localJoy.buttonL1);
 			
 			//Set yaw angle
 			yawDot = (localJoy.R2 - 1)/2 - (localJoy.L2 - 1)/2;
 			RPY_ref.x = 0;
 			RPY_ref.y = 0;
 			RPY_ref.z = RPY_ref.z + YawRateMax*yawDot*dt.toSec();
+
+			//Check if integrating in body frame
+			if(FSM.PosRefMode == FSM.POS_REF_BODY){
+				Rz = rotz(RPY_ref.z); //Rotation about yaw reference
+				Vel_ref = Rz*Vel_ref;
+			}
 			
 			pthread_mutex_lock(&mutexes.PVAref);
 				PVA_ref = filterJoy(PVA_ref, Vel_ref, dt.toSec(), PosRefTimeConstant);

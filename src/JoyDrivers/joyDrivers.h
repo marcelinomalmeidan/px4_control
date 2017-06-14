@@ -16,7 +16,7 @@ joyStruct driverXbox360Wired(sensor_msgs::Joy msg);
 
 //Function for low-pass filtering position references for quadcopter
 PVA_structure filterJoy(PVA_structure PVA_refPrev,
-                        geometry_msgs::Vector3 Vel_ref,
+                        Eigen::Vector3d Vel_ref,
                         double dt, double TimeConstant);
 
 //Function to print values received from joystick (debug purposes)

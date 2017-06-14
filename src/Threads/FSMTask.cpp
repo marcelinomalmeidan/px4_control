@@ -61,12 +61,32 @@ void *FSMTask(void *threadID){
 		if(WaitForEvent(joyEvents.buttonLeft,0) == 0){
 			ROS_INFO("Local Position control Mode!");
 		    pthread_mutex_lock(&mutexes.FSM);
-		    	FSM.PosControlMode = FSM.POS_CONTROL_LOCAL;
+		    	if(FSM.PosControlMode == FSM.POS_CONTROL_LOCAL){
+		    		if(FSM.PosRefMode != FSM.POS_REF_WORLD){
+			    		FSM.PosRefMode = FSM.POS_REF_WORLD;
+			    		ROS_INFO("Joystick reference is in world frame!");
+			    	}
+			    	else{
+			    		FSM.PosRefMode = FSM.POS_REF_BODY;
+			    		ROS_INFO("Joystick reference is in body frame!");
+			    	}
+			    }
+		    	FSM.PosControlMode = FSM.POS_CONTROL_LOCAL;		    	
 		    pthread_mutex_unlock(&mutexes.FSM);
 		}
 		if(WaitForEvent(joyEvents.buttonRight,0) == 0){
 			ROS_INFO("PX4 Position control Mode!");
 		    pthread_mutex_lock(&mutexes.FSM);
+		    	if(FSM.PosControlMode == FSM.POS_CONTROL_PX4){
+		    		if(FSM.PosRefMode != FSM.POS_REF_WORLD){
+			    		FSM.PosRefMode = FSM.POS_REF_WORLD;
+			    		ROS_INFO("Joystick reference is in world frame!");
+			    	}
+			    	else{
+			    		FSM.PosRefMode = FSM.POS_REF_BODY;
+			    		ROS_INFO("Joystick reference is in body frame!");
+			    	}
+			    }
 		    	FSM.PosControlMode = FSM.POS_CONTROL_PX4;
 		    pthread_mutex_unlock(&mutexes.FSM);
 		}

@@ -105,9 +105,13 @@ void initializeStateMachine(StateMachine &FSM){
 	FSM.POS_CONTROL_LOCAL = 0;	//Control is made through the current node
 	FSM.POS_CONTROL_PX4 = 1;	//Control is made through PX4 software
 
+	FSM.POS_REF_WORLD = 0;		//Joysticks references integrate in world frame
+	FSM.POS_REF_BODY = 1;		//Joystick references integrate in body frame
+
 	//Start disarmed / Position control is don in this node
 	FSM.State = FSM.MODE_DISARM;
 	FSM.PosControlMode = FSM.POS_CONTROL_LOCAL;
+	FSM.PosRefMode = FSM.POS_REF_WORLD;
 }
 
 void printCurrentState(StateMachine FSM){

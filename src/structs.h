@@ -91,8 +91,12 @@ struct StateMachine{
 	int POS_CONTROL_LOCAL;
 	int POS_CONTROL_PX4;
 
+	int POS_REF_WORLD;
+	int POS_REF_BODY;
+
 	int State;
 	int PosControlMode;
+	int PosRefMode;
 };
 
 //Structure for a PID with 3 degrees-of-freedom
