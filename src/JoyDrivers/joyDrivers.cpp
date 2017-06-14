@@ -128,9 +128,9 @@ joyStruct driverXbox360Wired(sensor_msgs::Joy msg){
 
 PVA_structure filterJoy(PVA_structure PVA_ref,
                         geometry_msgs::Vector3 Vel_ref,
-                        double dt){
+                        double dt, double TimeConstant){
 	const double zeta = 1.0;	//Critically damped
-	const double wn = 5.0;		//Time constant = 1/5
+	const double wn = 1.0/TimeConstant;		//Time constant = 1/(zeta.wn)
 	Eigen::Matrix3d I_3x3 = Eigen::Matrix3d::Identity(3,3);
 
 	//Second order low pass filter continuous model

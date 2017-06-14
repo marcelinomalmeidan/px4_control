@@ -1,7 +1,8 @@
 #include "joyTask.h"
 
 void loadJoyRefParam(double &RollMax, double &PitchMax, double &YawRateMax,
-	                 double &maxThrust, double &xRate, double &yRate, double &zRate){
+	                 double &maxThrust, double &xRate, double &yRate,
+	                 double &zRate, double &PosRefTimeConstant){
 	
 	double RollMaxDeg, PitchMaxDeg, YawRateMaxDeg;
 
@@ -12,6 +13,7 @@ void loadJoyRefParam(double &RollMax, double &PitchMax, double &YawRateMax,
   	ros::param::get("/px4_control_node/xRate", xRate);
   	ros::param::get("/px4_control_node/yRate", yRate);
   	ros::param::get("/px4_control_node/zRate", zRate);
+  	ros::param::get("/px4_control_node/PosRefTimeConstant", PosRefTimeConstant);
 
   	RollMax = deg2rad(RollMaxDeg);
   	PitchMax = deg2rad(PitchMaxDeg);
@@ -58,11 +60,11 @@ void *joyTask(void *threadID){
 
 	//Max values for maneuvers
 	double RollMax, PitchMax, YawRateMax, maxThrust;
-	double xRate, yRate, zRate;
+	double xRate, yRate, zRate, PosRefTimeConstant;
 
 	//Load max values for maneuvers
 	loadJoyRefParam(RollMax, PitchMax, YawRateMax,
-	                maxThrust, xRate, yRate, zRate);
+	                maxThrust, xRate, yRate, zRate, PosRefTimeConstant);
 
 
 	//Wait until first message comes in
@@ -164,7 +166,7 @@ void *joyTask(void *threadID){
 			RPY_ref.z = RPY_ref.z + YawRateMax*yawDot*dt.toSec();
 			
 			pthread_mutex_lock(&mutexes.PVAref);
-				PVA_ref = filterJoy(PVA_ref, Vel_ref, dt.toSec());
+				PVA_ref = filterJoy(PVA_ref, Vel_ref, dt.toSec(), PosRefTimeConstant);
 				PVA_ref.Pos.pose.orientation = rpy2quat(RPY_ref);
 			pthread_mutex_unlock(&mutexes.PVAref);
 
