@@ -81,8 +81,8 @@ catkin_make
 	* Altitude can be changed using LB (2) and RB (7). Horizontal translation can be changed using the Right Stick (10). Yaw reference is changed when pushing LT (14) and RT (11).
 * Y: Joystick Attitude Mode.
 	* Roll and Pitch are commanded through the Joystick's Right Stick (10). Thrust is commanded through the Left Stick (1). Yaw reference is changed when pushing LT (14) and RT (11).
-* 8 (Left): Select Local Position Control mode. 
-* 8 (Right): Select Px4 Position Control mode. 
+* 8 (Left): Select Local Position Control mode. If you push more than once, it will start switching between references being integrated in WORLD or BODY frames.
+* 8 (Right): Select Px4 Position Control mode. If you push more than once, it will start switching between references being integrated in WORLD or BODY frames.
 
 
 ## Tuning Position Controller PID
