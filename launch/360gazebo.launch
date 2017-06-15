@@ -14,25 +14,24 @@
     <param name="xRate" value="1.0"/>       <!-- meters/sec -->
     <param name="yRate" value="1.0"/>       <!-- meters/sec -->
     <param name="zRate" value="0.5"/>       <!-- meters/sec -->
-    <param name="PosRefTimeConstant" value="0.2"/> <!-- seconds -->
 
     <!-- Topic with odometry information for the vehicle -->
     <param name="odomTopic" value="/mavros/local_position/odom"/>
 
     <!-- Type of joystick being used. Admitted types are:
          joyXboxOne  /  joyXbox360  /  joyXbox360Wired -->
-    <param name="joyDriver" value="joyXboxOne"/>
-    
+    <param name="joyDriver" value="joyXbox360Wired"/>
+
     <!-- Position Control parameters -->
-    <param name="mass" value="0.407"/>       <!-- kg -->
+    <param name="mass" value="1.535"/>       <!-- kg -->
     <param name="gz" value="9.81"/>          <!-- m/s^2 -->
-    <param name="thrustRatio" value="2.3"/>  <!-- maxThrust/Weight -->
-    <param name="kpx" value="1.7"/>
-    <param name="kpy" value="1.7"/>
-    <param name="kpz" value="1.2"/>
-    <param name="kvx" value="0.8"/>
-    <param name="kvy" value="0.8"/>
-    <param name="kvz" value="0.7"/>
+    <param name="thrustRatio" value="1.7"/>  <!-- maxThrust/Weight -->
+    <param name="kpx" value="10"/>
+    <param name="kpy" value="10"/>
+    <param name="kpz" value="10"/>
+    <param name="kvx" value="5"/>
+    <param name="kvy" value="5"/>
+    <param name="kvz" value="7.5"/>
     <param name="kix" value="0"/>
     <param name="kiy" value="0"/>
     <param name="kiz" value="0"/>
