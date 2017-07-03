@@ -15,6 +15,20 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr &msg){
 	pthread_mutex_unlock(&mutexes.odom);
 }
 
+void tfCallback(const nav_msgs::Odometry::ConstPtr &msg){
+	static tf::TransformBroadcaster br;
+	tf::Transform transform;
+	transform.setOrigin(tf::Vector3(msg->pose.pose.position.x,
+		                            msg->pose.pose.position.y,
+		                            msg->pose.pose.position.z) );
+  	transform.setRotation(tf::Quaternion(msg->pose.pose.orientation.x,
+  		                                 msg->pose.pose.orientation.y,
+  		                                 msg->pose.pose.orientation.z,
+  		                                 msg->pose.pose.orientation.w));
+
+ 	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "fcu", "quad"));
+}
+
 //Get data from joysticks using appropriate driver
 void joyCallback(const sensor_msgs::Joy msg){
 
