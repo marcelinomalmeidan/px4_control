@@ -1,7 +1,7 @@
 #include "PosControl.h"
 
 //Sets initial errors to zero
-void initializePID(PID_3DOF &PID){
+void initializePID3(PID_3DOF &PID){
 	Eigen::Vector3d zeros = Eigen::Vector3d::Zero();
 
 	PID.e_prop = zeros;
@@ -10,12 +10,12 @@ void initializePID(PID_3DOF &PID){
 }
 
 //Sets integral error to zero
-void resetIntegralErrorPID(PID_3DOF &PID){
+void resetIntegralErrorPID3(PID_3DOF &PID){
 	PID.e_integ = Eigen::Vector3d::Zero();
 }
 
 //Update Kp, Ki and Kd in the PID
-void updateControlParamPID(PID_3DOF &PID, 
+void updateControlParamPID3(PID_3DOF &PID, 
 	                       Eigen::Vector3d K_p, 
 	                       Eigen::Vector3d K_i, 
 	                       Eigen::Vector3d K_d, 
@@ -27,7 +27,7 @@ void updateControlParamPID(PID_3DOF &PID,
 }
 
 //Update all errors
-void updateErrorPID(PID_3DOF &PID, 
+void updateErrorPID3(PID_3DOF &PID, 
 	                Eigen::Vector3d feedForward, 
 	                Eigen::Vector3d e_prop, 
 	                Eigen::Vector3d e_deriv, 
@@ -46,7 +46,7 @@ void updateErrorPID(PID_3DOF &PID,
 }
 
 //Calculate output of PID
-Eigen::Vector3d outputPID(PID_3DOF PID){
+Eigen::Vector3d outputPID3(PID_3DOF PID){
 	Eigen::Vector3d PID_out;
 	PID_out =  PID.feedForward + 
 			   PID.e_prop.cwiseProduct(PID.K_p) + 
@@ -89,7 +89,7 @@ void readROSparameterServer(PID_3DOF &PID, PosControlParam &Param){
   ros::param::get("/px4_control_node/maxInteg_x", maxInteg[0]);
   ros::param::get("/px4_control_node/maxInteg_y", maxInteg[1]);
   ros::param::get("/px4_control_node/maxInteg_z", maxInteg[2]);
-  updateControlParamPID(PID, Kp, Ki, Kd, maxInteg);
+  updateControlParamPID3(PID, Kp, Ki, Kd, maxInteg);
 
   //Print all parameter values
   ROS_INFO("mass: %f\tgz: %f\tthrustRatio: %f", mass, gz, thrustRatio);
@@ -162,8 +162,8 @@ void PosController(nav_msgs::Odometry Odom,
 	
 	//Translational controller
 	feedForward = m*gz*z_w + m*AccRef;
-	updateErrorPID(PosPID, feedForward, e_Pos, e_Vel, dt);
-	Fdes = outputPID(PosPID);
+	updateErrorPID3(PosPID, feedForward, e_Pos, e_Vel, dt);
+	Fdes = outputPID3(PosPID);
 
 	//Desired thrust in body frame
 	refThrust.data = min(max(Fdes.dot(z_b), 0.0),maxThrust)/maxThrust;

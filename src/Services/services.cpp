@@ -21,7 +21,7 @@ bool updatePosControlParam(px4_control::updatePx4param::Request &req,
 	maxInteg << req.data[9], req.data[10], req.data[11];
 
 	pthread_mutex_lock(&mutexes.PID_Pos);
-		updateControlParamPID(PosPID, Kp, Ki, Kd, maxInteg);
+		updateControlParamPID3(PosPID, Kp, Ki, Kd, maxInteg);
 	pthread_mutex_unlock(&mutexes.PID_Pos);
 
   ROS_INFO("Kp: %f,\t%f,\t%f", Kp[0], Kp[1], Kp[2]);

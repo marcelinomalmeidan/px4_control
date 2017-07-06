@@ -6,27 +6,27 @@
 #include "../structs.h"
 
 //Sets initial errors to zero
-void initializePID(PID_3DOF &PID);
+void initializePID3(PID_3DOF &PID);
 
 //Sets integral error to zero
-void resetIntegralErrorPID(PID_3DOF &PID);
+void resetIntegralErrorPID3(PID_3DOF &PID);
 
 //Update Kp, Ki and Kd in the PID
-void updateControlParamPID(PID_3DOF &PID, 
+void updateControlParamPID3(PID_3DOF &PID, 
 	                       Eigen::Vector3d K_p, 
 	                       Eigen::Vector3d K_i, 
 	                       Eigen::Vector3d K_d, 
 	                       Eigen::Vector3d maxInteg);
 
 //Update all errors
-void updateErrorPID(PID_3DOF &PID, 
+void updateErrorPID3(PID_3DOF &PID, 
 	                Eigen::Vector3d feedForward, 
 	                Eigen::Vector3d e_prop, 
 	                Eigen::Vector3d e_deriv, 
 	                float dt);
 
 //Calculate output of PID
-Eigen::Vector3d outputPID(PID_3DOF PID);
+Eigen::Vector3d outputPID3(PID_3DOF PID);
 
 //Initialize parameters for position control
 void initializePosControlParam(PosControlParam &Param,

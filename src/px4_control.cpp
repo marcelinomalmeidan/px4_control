@@ -39,7 +39,7 @@ int main(int argc, char **argv)
   initializeEvents(joyEvents, syncEvents);
   initializeMutexes(mutexes);
   initializeStateMachine(FSM);
-  initializePID(PosPID);
+  initializePID3(PosPID);
   readROSparameterServer(PosPID, ControlParam);
 
   //Print initial state of the finite state machine
