@@ -1,0 +1,44 @@
+<launch>
+  <node pkg="px4_control"
+    type="px4_control_node"
+    name="px4_control_node"
+    output="screen">
+
+    <!-- Joystick Attitude Reference parameters -->
+    <param name="RollMax" value="30.0"/>     <!-- degrees -->
+    <param name="PitchMax" value="30.0"/>    <!-- degrees -->
+    <param name="YawRateMax" value="45.0"/>  <!-- deg/sec -->
+    <param name="maxThrust" value="1.0"/>    <!-- From 0 to 1 -->
+
+    <!-- Joystick Position Reference parameters -->
+    <param name="xRate" value="2.5"/>       <!-- meters/sec -->
+    <param name="yRate" value="2.5"/>       <!-- meters/sec -->
+    <param name="zRate" value="2.5"/>       <!-- meters/sec -->
+    <param name="PosRefTimeConstant" value="0.2"/> <!-- seconds -->
+
+    <!-- Topic with odometry information for the vehicle -->
+    <param name="odomTopic" value="/mavros/local_position/odom"/>
+
+    <!-- Type of joystick being used. Admitted types are:
+         joyXboxOne  /  joyXbox360  /  joyXbox360Wired -->
+    <param name="joyDriver" value="joyXbox360Wired"/>
+
+    <!-- Position Control parameters -->
+    <param name="mass" value="2.856"/>       <!-- kg -->
+    <param name="gz" value="9.81"/>          <!-- m/s^2 -->
+    <param name="thrustRatio" value="2.0"/>  <!-- maxThrust/Weight -->
+    <param name="kpx" value="1.7"/>
+    <param name="kpy" value="1.7"/>
+    <param name="kpz" value="1.2"/>
+    <param name="kvx" value="2.8"/>
+    <param name="kvy" value="2.8"/>
+    <param name="kvz" value="2.7"/>
+    <param name="kix" value="0"/>
+    <param name="kiy" value="0"/>
+    <param name="kiz" value="0"/>
+    <param name="maxInteg_x" value="0"/>
+    <param name="maxInteg_y" value="0"/>
+    <param name="maxInteg_z" value="0"/>
+  </node>
+</launch>
+
