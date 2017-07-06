@@ -45,6 +45,9 @@ float normPoint(geometry_msgs::Point Pt);
 //Function to print the values of a ROS Point (debug purposes)
 void printPoint(geometry_msgs::Point Pt);
 
+//Function to copy a ROS Point into a ROS Vector3 structure
+geometry_msgs::Vector3 Point_2_Vec3(geometry_msgs::Point Pt);
+
 //Function to generate a skew-symmetric matrix from a vector (based on kinematics)
 Eigen::Matrix3d skew(float x, float y, float z);
 

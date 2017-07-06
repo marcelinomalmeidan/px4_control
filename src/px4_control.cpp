@@ -56,6 +56,7 @@ int main(int argc, char **argv)
   //Subscribers ----------------------------------------------
   ros::Subscriber stateSub = n.subscribe("mavros/state", 10, stateCallback);
   ros::Subscriber odomSub = n.subscribe(odomTopic, 10, odomCallback);
+  ros::Subscriber tfSub = n.subscribe(odomTopic, 10, tfCallback);
   ros::Subscriber joySub = n.subscribe("joy", 10, joyCallback);
   ros::Subscriber PvaSub = n.subscribe("/px4_control/PVA_Ref", 10, PVACallback);
 

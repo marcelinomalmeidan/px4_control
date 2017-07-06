@@ -92,6 +92,14 @@ void printPoint(geometry_msgs::Point Pt){
 	ROS_INFO("Value %f %f %f", Pt.x, Pt.y, Pt.z);
 }
 
+geometry_msgs::Vector3 Point_2_Vec3(geometry_msgs::Point Pt){
+	geometry_msgs::Vector3 Vec3;
+	Vec3.x = Pt.x;
+	Vec3.y = Pt.y;
+	Vec3.z = Pt.z;
+	return Vec3;
+}
+
 Eigen::Matrix3d skew(float x, float y, float z){
 	Eigen::Matrix3d M;
 
