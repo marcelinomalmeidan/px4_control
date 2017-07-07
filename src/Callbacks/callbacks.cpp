@@ -25,7 +25,7 @@ void tfCallback(const nav_msgs::Odometry::ConstPtr &msg){
   		                                 msg->pose.pose.orientation.y,
   		                                 msg->pose.pose.orientation.z,
   		                                 msg->pose.pose.orientation.w));
-
+  	// printf("tf called\n");
  	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "fcu", "quad"));
 }
 

@@ -21,7 +21,7 @@
 
     <!-- Type of joystick being used. Admitted types are:
          joyXboxOne  /  joyXbox360  /  joyXbox360Wired -->
-    <param name="joyDriver" value="joyXboxOne"/>
+    <param name="joyDriver" value="joyXbox360Wired"/>
 
     <!-- Position Control parameters -->
     <param name="mass" value="2.856"/>       <!-- kg -->
