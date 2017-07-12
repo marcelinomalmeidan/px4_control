@@ -66,6 +66,6 @@ add_executable(px4_control_node
 target_link_libraries(px4_control_node ${catkin_LIBRARIES})
 
 #This makes sure that messages and services are compiled before the rest
-add_dependencies(px4_control_node msg_pkg_generate_messages_cpp)
+add_dependencies(px4_control_node px4_control_generate_messages_cpp)
 add_dependencies(px4_control_node ${catkin_EXPORTED_TARGETS})
 
