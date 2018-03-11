@@ -29,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Image
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -140,13 +140,19 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        fcu:
+          Value: true
+        quad:
+          Value: true
       Marker Scale: 1.5
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        fcu:
+          quad:
+            {}
       Update Interval: 0
       Value: true
     - Class: rviz/Image
@@ -227,24 +233,24 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 116.421974
+      Distance: 11.9204731
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 11.0892467
-        Y: -20.3881702
-        Z: 32.1828804
+        X: 11.4040041
+        Y: -21.857769
+        Z: 7.89931679
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.890203118
+      Pitch: 0.340203673
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.35056305
+      Yaw: 5.18556023
     Saved: ~
 Window Geometry:
   Displays:
